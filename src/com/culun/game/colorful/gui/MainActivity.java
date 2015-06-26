@@ -1,9 +1,9 @@
-package com.culun.game.colorful;
+package com.culun.game.colorful.gui;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+
+import com.culun.game.colorful.R;
 
 public class MainActivity extends Activity {
 
@@ -12,4 +12,5 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 	}
+
 }
