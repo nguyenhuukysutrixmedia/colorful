@@ -9,11 +9,12 @@
         android:layout_height="wrap_content"
         android:text="@string/hello_world" />
 
-    <com.culun.game.colorful.gui.custom.GameBoardSurfaceView
-        android:id="@+id/main_activity_gameboard_surface_view"
+    <LinearLayout
+        android:id="@+id/main_activity_box_layout"
         android:layout_width="match_parent"
-        android:background="@android:color/transparent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:orientation="vertical" >
+    </LinearLayout>
 
 </FrameLayout>

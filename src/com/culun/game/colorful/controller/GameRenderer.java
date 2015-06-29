@@ -75,19 +75,19 @@ public class GameRenderer {
 
 	private void drawBox() {
 
-		int size = mGameWorld.getListBoxs().size();
-
-		for (int i = 0; i < mGameWorld.getListBoxs().size(); i++) {
-			MyBox myBox = mGameWorld.getListBoxs().get(i);
-
-			if (myBox.isTarget()) {
-				mPaint.setColor(mGameWorld.getTargetBoxColor());
-			} else {
-				mPaint.setColor(mGameWorld.getBoxColor());
-			}
-//			mCanvas.drawRect(myBox.getX(), myBox.getY(), myBox.getSize(), myBox.getSize(),mPaint);
-			// batcher.draw(new Texture(myBox.getPixmap()), myBox.getX(), myBox.getY());
-		}
+//		int size = mGameWorld.getListBoxs().size();
+//
+//		for (int i = 0; i < mGameWorld.getListBoxs().size(); i++) {
+//			MyBox myBox = mGameWorld.getListBoxs().get(i);
+//
+//			if (myBox.isTarget()) {
+//				mPaint.setColor(mGameWorld.getTargetBoxColor());
+//			} else {
+//				mPaint.setColor(mGameWorld.getBoxColor());
+//			}
+////			mCanvas.drawRect(myBox.getX(), myBox.getY(), myBox.getSize(), myBox.getSize(),mPaint);
+//			// batcher.draw(new Texture(myBox.getPixmap()), myBox.getX(), myBox.getY());
+//		}
 
 	}
 

@@ -60,7 +60,7 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 		if (mGameWorld == null) {
 			gameWidth = getWidth();
 			gameHeight = gameWidth;
-			mGameWorld = new GameWorld(getContext(), this, gameWidth, gameHeight);
+//			mGameWorld = new GameWorld(getContext(), this, gameWidth, gameHeight);
 			mInputHandler = new GameBoardInputHandler(mGameWorld, 1.0f, 1.0f);
 		}
 	}
@@ -124,20 +124,20 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 
 	private void drawBox() {
 
-		int size = mGameWorld.getListBoxs().size();
-
-		for (int i = 0; i < mGameWorld.getListBoxs().size(); i++) {
-			MyBox myBox = mGameWorld.getListBoxs().get(i);
-
-			if (myBox.isTarget()) {
-				mPaint.setColor(mGameWorld.getTargetBoxColor());
-			} else {
-				mPaint.setColor(mGameWorld.getBoxColor());
-			}
-			mCanvas.drawRoundRect(myBox.getLeft(), myBox.getTop(), myBox.getRight(), myBox.getBottom(), BOX_RADIUS,
-					BOX_RADIUS, mPaint);
-			// batcher.draw(new Texture(myBox.getPixmap()), myBox.getX(), myBox.getY());
-		}
+//		int size = mGameWorld.getListBoxs().size();
+//
+//		for (int i = 0; i < mGameWorld.getListBoxs().size(); i++) {
+//			MyBox myBox = mGameWorld.getListBoxs().get(i);
+//
+//			if (myBox.isTarget()) {
+//				mPaint.setColor(mGameWorld.getTargetBoxColor());
+//			} else {
+//				mPaint.setColor(mGameWorld.getBoxColor());
+//			}
+//			mCanvas.drawRoundRect(myBox.getLeft(), myBox.getTop(), myBox.getRight(), myBox.getBottom(), BOX_RADIUS,
+//					BOX_RADIUS, mPaint);
+//			// batcher.draw(new Texture(myBox.getPixmap()), myBox.getX(), myBox.getY());
+//		}
 
 	}
 

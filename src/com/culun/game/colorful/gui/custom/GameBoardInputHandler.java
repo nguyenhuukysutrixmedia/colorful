@@ -32,24 +32,24 @@ public class GameBoardInputHandler {
 		case MotionEvent.ACTION_DOWN:
 			System.out.println("touchDown: " + screenX + "-" + screenY);
 
-			ArrayList<MyBox> listBoxs = mGameWorld.getListBoxs();
-			for (int i = 0; i < listBoxs.size(); i++) {
-				MyBox myBox = listBoxs.get(i);
-				if (screenX >= myBox.getLeft() && screenX <= (myBox.getRight()) && screenY >= myBox.getTop()
-						&& screenY <= (myBox.getBottom())) {
-
-					myBox.onClick();
-					if (mGameWorld.isReady()) {
-						mGameWorld.start();
-					}
-					if (mGameWorld.isRunning()) {
-						if (myBox.isTarget()) {
-							mGameWorld.addScore(1);
-						}
-					}
-
-				}
-			}
+//			ArrayList<MyBox> listBoxs = mGameWorld.getListBoxs();
+//			for (int i = 0; i < listBoxs.size(); i++) {
+//				MyBox myBox = listBoxs.get(i);
+//				if (screenX >= myBox.getLeft() && screenX <= (myBox.getRight()) && screenY >= myBox.getTop()
+//						&& screenY <= (myBox.getBottom())) {
+//
+//					myBox.onClick();
+//					if (mGameWorld.isReady()) {
+//						mGameWorld.start();
+//					}
+//					if (mGameWorld.isRunning()) {
+//						if (myBox.isTarget()) {
+//							mGameWorld.addScore(1);
+//						}
+//					}
+//
+//				}
+//			}
 
 			break;
 		}

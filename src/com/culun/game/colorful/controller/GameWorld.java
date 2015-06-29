@@ -5,11 +5,15 @@ import java.util.Random;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.culun.game.colorful.R;
 import com.culun.game.colorful.constant.MyConstants;
 import com.culun.game.colorful.gameobjects.MyBox;
 import com.culun.game.colorful.gui.custom.GameBoardSurfaceView;
+import com.culun.game.colorful.gui.custom.MyBoxButton;
 
 public class GameWorld {
 
@@ -27,7 +31,8 @@ public class GameWorld {
 	private int size = 2;
 	private int boxColor;
 	private int targetBoxColor;
-	private ArrayList<MyBox> listBoxs;
+	int targetIndex;
+	private ArrayList<MyBoxButton> listBoxs;
 
 	private GameBoardSurfaceView gameBoardSurfaceView;
 
@@ -42,8 +47,7 @@ public class GameWorld {
 
 	private Context mContext;
 
-	public GameWorld(Context context, GameBoardSurfaceView gameBoardSurfaceView, float gameWidth, float gameHeight) {
-		this.gameBoardSurfaceView = gameBoardSurfaceView;
+	public GameWorld(Context context,  float gameWidth, float gameHeight) {
 		mContext = context;
 		randrom = new Random(System.currentTimeMillis());
 		loadDimenValues();
@@ -51,7 +55,6 @@ public class GameWorld {
 		this.gameWidth = gameWidth;
 		this.gameHeight = gameHeight;
 		currentState = GameState.READY;
-		generateListBoxs();
 	}
 
 	private void loadDimenValues() {
@@ -87,24 +90,43 @@ public class GameWorld {
 		return alpha;
 	}
 
-	private void generateListBoxs() {
+	public LinearLayout generateListBoxs(LinearLayout linearLayout) {
 
 		listBoxs = new ArrayList<>();
-		int boxSize = (int) (gameWidth - (MARGIN_WALL * 2) - MARGIN_BOXS * (size - 1)) / size;
 		randomColor();
-
 		int n = size * size;
-		int targetIndex = randrom.nextInt(n);
-		for (int i = 0; i < n; i++) {
-
-			int row = i / size;
-			float left = MARGIN_WALL + (i % size) * (MARGIN_BOXS + boxSize);
-			float top = gameHeight - MARGIN_WALL - boxSize * (size - row) - MARGIN_BOXS * (size - row - 1);
-
-			boolean isTarget = (i == targetIndex);
-			MyBox myBox = new MyBox(left, top, left + boxSize, top + boxSize, boxSize, isTarget);
-			listBoxs.add(myBox);
+		targetIndex = randrom.nextInt(n);
+		linearLayout.removeAllViews();
+		for (int i = 0; i < size; i++) {
+			linearLayout.addView(createLineLinearlayout());
+			// listBoxs.add(myBox);
 		}
+
+		return linearLayout;
+	}
+
+	private LinearLayout createLineLinearlayout() {
+		LinearLayout linearLayout = new LinearLayout(mContext);
+		linearLayout.setBackgroundColor(Color.TRANSPARENT);
+		linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+		LayoutParams LLParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		linearLayout.setWeightSum(size);
+		linearLayout.setLayoutParams(LLParams);
+		for (int i = 0; i < size; i++) {
+			MyBoxButton myBoxButton = new MyBoxButton(mContext);
+			boolean isTarget = (i == targetIndex);
+			if (isTarget)
+				myBoxButton.setBackgroundColor(targetBoxColor);
+			else {
+				myBoxButton.setBackgroundColor(boxColor);
+			}
+
+			linearLayout.addView(myBoxButton);
+		}
+
+		return linearLayout;
+
 	}
 
 	public void update(float delta) {
@@ -154,7 +176,6 @@ public class GameWorld {
 		score += increment;
 		if (size < MAX_SIZE && score >= SCORE_RANGES[size - 2])
 			size++;
-		generateListBoxs();
 		gameBoardSurfaceView.doDraw();
 	}
 
@@ -202,9 +223,6 @@ public class GameWorld {
 		return targetBoxColor;
 	}
 
-	public ArrayList<MyBox> getListBoxs() {
-		return listBoxs;
-	}
 
 	public int getTimeOut() {
 		return timeOut;
