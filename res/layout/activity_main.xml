@@ -1,7 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/main_color" >
 
     <TextView
         android:layout_width="wrap_content"
@@ -9,7 +10,9 @@
         android:text="@string/hello_world" />
 
     <com.culun.game.colorful.gui.custom.GameBoardSurfaceView
+        android:id="@+id/main_activity_gameboard_surface_view"
         android:layout_width="match_parent"
+        android:background="@android:color/transparent"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 

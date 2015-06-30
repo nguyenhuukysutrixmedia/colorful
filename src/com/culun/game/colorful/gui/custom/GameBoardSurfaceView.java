@@ -11,10 +11,25 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.culun.game.colorful.R;
+import com.culun.game.colorful.controller.GameWorld;
+import com.culun.game.colorful.gameobjects.MyBox;
+
 public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
+
+	private final int TIME_COLOR = Color.CYAN;
+	private int BACKGROUND_COLOR = Color.TRANSPARENT;
+	private float BOX_RADIUS = 8f;
+
+	private GameWorld mGameWorld;
+	private int midPointY;
+	private int gameWidth;
+	private int gameHeight;
 
 	private SurfaceHolder mHolder;
 	private Paint mPaint;
+	private Canvas mCanvas;
+	private GameBoardInputHandler mInputHandler;
 
 	public GameBoardSurfaceView(Context context) {
 		super(context);
@@ -37,6 +52,17 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 		mPaint = new Paint();
 		mPaint.setColor(Color.RED);
 		mPaint.setStyle(Style.FILL);
+		BOX_RADIUS = (float) getResources().getDimensionPixelSize(R.dimen.box_round);
+
+	}
+
+	private void initGameWorld() {
+		if (mGameWorld == null) {
+			gameWidth = getWidth();
+			gameHeight = gameWidth;
+			mGameWorld = new GameWorld(getContext(), this, gameWidth, gameHeight);
+			mInputHandler = new GameBoardInputHandler(mGameWorld, 1.0f, 1.0f);
+		}
 	}
 
 	@Override
@@ -45,30 +71,22 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 		super.onMeasure(widthMeasureSpec, widthMeasureSpec);
 	}
 
-	public void doDraw() {
-		mHolder = getHolder();
-		Canvas canvas = mHolder.lockCanvas();
-		// canvas.drawColor(Color.BLUE);
-		// canvas.drawRect(new RectF(0, 110, 100, 290), mPaint);
-
-		mHolder.unlockCanvasAndPost(canvas);
-	}
-
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 
+		mInputHandler.onTouchEvent(event);
+
 		switch (event.getAction()) {
-
-			case MotionEvent.ACTION_DOWN :
-				Canvas canvas = mHolder.lockCanvas();
-				canvas.drawColor(Color.BLUE);
-				// canvas.drawCircle(event.getX(), event.getY(), 50, mPaint);
-				float x = event.getX();
-				float y = event.getY();
-
-				canvas.drawRoundRect(new RectF(x - 50, y - 50, x + 50, y + 50), 10, 10, mPaint);
-				mHolder.unlockCanvasAndPost(canvas);
-				break;
+		case MotionEvent.ACTION_DOWN:
+			// mCanvas = mHolder.lockCanvas();
+			// mCanvas.drawColor(Color.BLUE);
+			// // canvas.drawCircle(event.getX(), event.getY(), 50, mPaint);
+			// float x = event.getX();
+			// float y = event.getY();
+			//
+			// mCanvas.drawRoundRect(new RectF(x - 50, y - 50, x + 50, y + 50), 10, 10, mPaint);
+			// mHolder.unlockCanvasAndPost(mCanvas);
+			break;
 		}
 
 		return true;
@@ -86,5 +104,75 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 
+	}
+
+	private void drawMenuUI() {
+
+	}
+
+	private void drawTime() {
+
+		// float width = (float)myWorld.getTimeOut()/ MyConstants.GAME_TIME * (gameWidth-2);
+		// canvas.rect(1, 1, width, 12);
+	}
+
+	private void drawScore() {
+		int length = ("" + mGameWorld.getScore()).length();
+		// AssetLoader.shadow.draw(batcher, "" + myWorld.getScore(), 68 - (3 * length), midPointY - 82);
+		// AssetLoader.font.draw(batcher, "" + myWorld.getScore(), 68 - (3 * length), midPointY - 83);
+	}
+
+	private void drawBox() {
+
+		int size = mGameWorld.getListBoxs().size();
+
+		for (int i = 0; i < mGameWorld.getListBoxs().size(); i++) {
+			MyBox myBox = mGameWorld.getListBoxs().get(i);
+
+			if (myBox.isTarget()) {
+				mPaint.setColor(mGameWorld.getTargetBoxColor());
+			} else {
+				mPaint.setColor(mGameWorld.getBoxColor());
+			}
+			mCanvas.drawRoundRect(myBox.getLeft(), myBox.getTop(), myBox.getRight(), myBox.getBottom(), BOX_RADIUS,
+					BOX_RADIUS, mPaint);
+			// batcher.draw(new Texture(myBox.getPixmap()), myBox.getX(), myBox.getY());
+		}
+
+	}
+
+	private void drawBoardBackground() {
+		mCanvas.drawColor(BACKGROUND_COLOR);
+		mPaint.setColor(BACKGROUND_COLOR);
+		mCanvas.drawRect(new RectF(0, 0, gameWidth, gameHeight), mPaint);
+	}
+
+	public void doDraw() {
+
+		mHolder = getHolder();
+		mCanvas = mHolder.lockCanvas();
+
+		initGameWorld();
+
+		drawBoardBackground();
+
+		if (mGameWorld.isRunning()) {
+			drawBox();
+			drawScore();
+			drawTime();
+		} else if (mGameWorld.isReady()) {
+			drawBox();
+			drawScore();
+		} else if (mGameWorld.isMenu()) {
+			drawMenuUI();
+		} else if (mGameWorld.isGameOver()) {
+			drawBox();
+			drawScore();
+		} else if (mGameWorld.isHighScore()) {
+			drawBox();
+			drawScore();
+		}
+
+		mHolder.unlockCanvasAndPost(mCanvas);
 	}
 }
