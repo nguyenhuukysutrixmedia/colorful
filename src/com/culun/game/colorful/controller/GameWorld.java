@@ -13,9 +13,9 @@ import com.culun.game.colorful.gui.custom.GameBoardSurfaceView;
 
 public class GameWorld {
 
-	private final int[] ALPHA_RANGES = new int[] { 170, 180, 190, 200, 210, 220, 230, 235, 240, 245 };
+	private final int[] ALPHA_RANGES = new int[]{170, 180, 190, 200, 210, 220, 230, 235, 240, 245};
 	private final int MAX_ALPHA = ALPHA_RANGES[ALPHA_RANGES.length - 1];
-	private final int[] SCORE_RANGES = new int[] { 1, 3, 6, 11, 19, 32, 40, 50, 60, 70 };
+	private final int[] SCORE_RANGES = new int[]{1, 3, 6, 11, 19, 32, 40, 50, 60, 70};
 	private final float MAX_SIZE = SCORE_RANGES.length;
 
 	private float MARGIN_WALL;
@@ -99,7 +99,8 @@ public class GameWorld {
 
 			int row = i / size;
 			float left = MARGIN_WALL + (i % size) * (MARGIN_BOXS + boxSize);
-			float top = gameHeight - MARGIN_WALL - boxSize * (size - row) - MARGIN_BOXS * (size - row - 1);
+			float top = (gameHeight + gameWidth) / 2 - MARGIN_WALL - boxSize * (size - row) - MARGIN_BOXS
+					* (size - row - 1);
 
 			boolean isTarget = (i == targetIndex);
 			MyBox myBox = new MyBox(left, top, left + boxSize, top + boxSize, boxSize, isTarget);
@@ -111,16 +112,16 @@ public class GameWorld {
 		runTime += delta;
 
 		switch (currentState) {
-		case READY:
-		case MENU:
-			updateReady(delta);
-			break;
+			case READY :
+			case MENU :
+				updateReady(delta);
+				break;
 
-		case RUNNING:
-			updateRunning(delta);
-			break;
-		default:
-			break;
+			case RUNNING :
+				updateRunning(delta);
+				break;
+			default :
+				break;
 		}
 
 	}

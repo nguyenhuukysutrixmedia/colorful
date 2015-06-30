@@ -1,11 +1,13 @@
 package com.culun.game.colorful.gui.custom;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -18,13 +20,14 @@ import com.culun.game.colorful.gameobjects.MyBox;
 public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
 	private final int TIME_COLOR = Color.CYAN;
-	private int BACKGROUND_COLOR = Color.TRANSPARENT;
+	private int BACKGROUND_COLOR = Color.WHITE;
 	private float BOX_RADIUS = 8f;
 
 	private GameWorld mGameWorld;
 	private int midPointY;
 	private int gameWidth;
 	private int gameHeight;
+	private int startBoardHeight;
 
 	private SurfaceHolder mHolder;
 	private Paint mPaint;
@@ -49,17 +52,25 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 	private void initGameBoardSurfaceView() {
 		mHolder = getHolder();
 		mHolder.addCallback(this);
-		mPaint = new Paint();
-		mPaint.setColor(Color.RED);
-		mPaint.setStyle(Style.FILL);
+		createPaint();
 		BOX_RADIUS = (float) getResources().getDimensionPixelSize(R.dimen.box_round);
 
+	}
+
+	private void createPaint() {
+		mPaint = new Paint();
+		mPaint.setColor(Color.BLACK);
+		mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+		mPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
 	}
 
 	private void initGameWorld() {
 		if (mGameWorld == null) {
 			gameWidth = getWidth();
-			gameHeight = gameWidth;
+			gameHeight = getHeight();
+
+			// startBoardHeight = (getHeight() - gameWidth) / 2;
+
 			mGameWorld = new GameWorld(getContext(), this, gameWidth, gameHeight);
 			mInputHandler = new GameBoardInputHandler(mGameWorld, 1.0f, 1.0f);
 		}
@@ -68,7 +79,7 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		// TODO Auto-generated method stub
-		super.onMeasure(widthMeasureSpec, widthMeasureSpec);
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
 
 	@Override
@@ -77,16 +88,16 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 		mInputHandler.onTouchEvent(event);
 
 		switch (event.getAction()) {
-		case MotionEvent.ACTION_DOWN:
-			// mCanvas = mHolder.lockCanvas();
-			// mCanvas.drawColor(Color.BLUE);
-			// // canvas.drawCircle(event.getX(), event.getY(), 50, mPaint);
-			// float x = event.getX();
-			// float y = event.getY();
-			//
-			// mCanvas.drawRoundRect(new RectF(x - 50, y - 50, x + 50, y + 50), 10, 10, mPaint);
-			// mHolder.unlockCanvasAndPost(mCanvas);
-			break;
+			case MotionEvent.ACTION_DOWN :
+				// mCanvas = mHolder.lockCanvas();
+				// mCanvas.drawColor(Color.BLUE);
+				// // canvas.drawCircle(event.getX(), event.getY(), 50, mPaint);
+				// float x = event.getX();
+				// float y = event.getY();
+				//
+				// mCanvas.drawRoundRect(new RectF(x - 50, y - 50, x + 50, y + 50), 10, 10, mPaint);
+				// mHolder.unlockCanvasAndPost(mCanvas);
+				break;
 		}
 
 		return true;
@@ -122,6 +133,7 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 		// AssetLoader.font.draw(batcher, "" + myWorld.getScore(), 68 - (3 * length), midPointY - 83);
 	}
 
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 	private void drawBox() {
 
 		int size = mGameWorld.getListBoxs().size();
@@ -134,17 +146,21 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 			} else {
 				mPaint.setColor(mGameWorld.getBoxColor());
 			}
-			mCanvas.drawRoundRect(myBox.getLeft(), myBox.getTop(), myBox.getRight(), myBox.getBottom(), BOX_RADIUS,
-					BOX_RADIUS, mPaint);
-			// batcher.draw(new Texture(myBox.getPixmap()), myBox.getX(), myBox.getY());
+
+			if (Build.VERSION.SDK_INT >= 21) {
+				mCanvas.drawRoundRect(myBox.getLeft(), myBox.getTop(), myBox.getRight(), myBox.getBottom(), BOX_RADIUS,
+						BOX_RADIUS, mPaint);
+			} else {
+				mCanvas.drawRect(myBox.getLeft(), myBox.getTop(), myBox.getRight(), myBox.getBottom(), mPaint);
+			}
 		}
 
 	}
-
 	private void drawBoardBackground() {
+
 		mCanvas.drawColor(BACKGROUND_COLOR);
-		mPaint.setColor(BACKGROUND_COLOR);
-		mCanvas.drawRect(new RectF(0, 0, gameWidth, gameHeight), mPaint);
+		// mPaint.setColor(BACKGROUND_COLOR);
+		// mCanvas.drawRect(new RectF(0, 0, gameWidth, gameHeight), mPaint);
 	}
 
 	public void doDraw() {
