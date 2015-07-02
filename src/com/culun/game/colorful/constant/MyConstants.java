@@ -8,4 +8,9 @@ public class MyConstants {
 	public static final int GAME_WIDTH = 256;
 	public static final int GAME_TIME = 15000;
 
+	//
+	// public static final String FONT_PATH = "font/Yearsupplyoffairycakes.ttf";
+	// public static final String FONT_PATH = "font/FunnyKid.ttf";
+	public static final String FONT_PATH = "font/Cartwheel.otf";
+
 }

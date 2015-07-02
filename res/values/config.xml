@@ -3,4 +3,8 @@
 
     <item name="is_test" type="bool">true</item>
 
+    <!-- ads key -->
+    <string name="banner_ad_unit_id">"ca-app-pub-2935223249556423/3958423993"</string>
+    <string name="full_ad_unit_id">"ca-app-pub-2935223249556423/5435157190"</string>
+
 </resources>

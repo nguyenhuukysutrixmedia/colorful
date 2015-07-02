@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- text size -->
+    <dimen name="text_size_small">30dp</dimen>
+    <dimen name="text_size_normal">38dp</dimen>
+    <dimen name="text_size_big">48dp</dimen>
+
+    <!-- game board -->
     <dimen name="box_round">8dp</dimen>
     <dimen name="box_margin_box">4dp</dimen>
     <dimen name="box_margin_wall">8dp</dimen>

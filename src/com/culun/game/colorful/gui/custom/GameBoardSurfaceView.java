@@ -5,8 +5,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.graphics.RectF;
+import android.graphics.Paint.Align;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -14,14 +14,28 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.culun.game.colorful.R;
+import com.culun.game.colorful.constant.MyConstants;
 import com.culun.game.colorful.controller.GameWorld;
 import com.culun.game.colorful.gameobjects.MyBox;
 
 public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
+	/**
+	 * Constants
+	 */
+	private final int MARGIN_TOP_TEXT = 30;
+
 	private final int TIME_COLOR = Color.CYAN;
 	private int BACKGROUND_COLOR = Color.WHITE;
+
+	/**
+	 * values load from resource
+	 */
+	private float TEXT_SIZE_NORMAL = 48f;
 	private float BOX_RADIUS = 8f;
+	private Typeface TYPE_FACE;
+
+	private Context mContext;
 
 	private GameWorld mGameWorld;
 	private int midPointY;
@@ -31,6 +45,7 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 
 	private SurfaceHolder mHolder;
 	private Paint mPaint;
+	private Paint mPaintText;
 	private Canvas mCanvas;
 	private GameBoardInputHandler mInputHandler;
 
@@ -49,12 +64,20 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 		initGameBoardSurfaceView();
 	}
 
+	private void loadResourceValues() {
+		BOX_RADIUS = (float) getResources().getDimension(R.dimen.box_round);
+		TEXT_SIZE_NORMAL = (float) getResources().getDimension(R.dimen.text_size_normal);
+		TYPE_FACE = Typeface.createFromAsset(getContext().getAssets(), MyConstants.FONT_PATH);
+	}
+
 	private void initGameBoardSurfaceView() {
+
+		loadResourceValues();
+
+		mContext = getContext();
 		mHolder = getHolder();
 		mHolder.addCallback(this);
 		createPaint();
-		BOX_RADIUS = (float) getResources().getDimensionPixelSize(R.dimen.box_round);
-
 	}
 
 	private void createPaint() {
@@ -62,6 +85,10 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 		mPaint.setColor(Color.BLACK);
 		mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
 		mPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+
+		mPaint.setTextSize(TEXT_SIZE_NORMAL);
+		mPaint.setTextAlign(Align.LEFT);
+		mPaint.setTypeface(TYPE_FACE);
 	}
 
 	private void initGameWorld() {
@@ -88,16 +115,16 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 		mInputHandler.onTouchEvent(event);
 
 		switch (event.getAction()) {
-			case MotionEvent.ACTION_DOWN :
-				// mCanvas = mHolder.lockCanvas();
-				// mCanvas.drawColor(Color.BLUE);
-				// // canvas.drawCircle(event.getX(), event.getY(), 50, mPaint);
-				// float x = event.getX();
-				// float y = event.getY();
-				//
-				// mCanvas.drawRoundRect(new RectF(x - 50, y - 50, x + 50, y + 50), 10, 10, mPaint);
-				// mHolder.unlockCanvasAndPost(mCanvas);
-				break;
+		case MotionEvent.ACTION_DOWN:
+			// mCanvas = mHolder.lockCanvas();
+			// mCanvas.drawColor(Color.BLUE);
+			// // canvas.drawCircle(event.getX(), event.getY(), 50, mPaint);
+			// float x = event.getX();
+			// float y = event.getY();
+			//
+			// mCanvas.drawRoundRect(new RectF(x - 50, y - 50, x + 50, y + 50), 10, 10, mPaint);
+			// mHolder.unlockCanvasAndPost(mCanvas);
+			break;
 		}
 
 		return true;
@@ -128,9 +155,9 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 	}
 
 	private void drawScore() {
-		int length = ("" + mGameWorld.getScore()).length();
-		// AssetLoader.shadow.draw(batcher, "" + myWorld.getScore(), 68 - (3 * length), midPointY - 82);
-		// AssetLoader.font.draw(batcher, "" + myWorld.getScore(), 68 - (3 * length), midPointY - 83);
+
+		mPaint.setColor(mGameWorld.getBoxColor());
+		mCanvas.drawText("" + mGameWorld.getScore(), TEXT_SIZE_NORMAL, TEXT_SIZE_NORMAL, mPaint);
 	}
 
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -156,6 +183,7 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 		}
 
 	}
+
 	private void drawBoardBackground() {
 
 		mCanvas.drawColor(BACKGROUND_COLOR);
