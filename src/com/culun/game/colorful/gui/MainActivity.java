@@ -1,8 +1,6 @@
 package com.culun.game.colorful.gui;
 
-import android.graphics.PixelFormat;
 import android.os.Bundle;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
 
@@ -17,7 +15,7 @@ public class MainActivity extends BaseActivity {
 	private SurfaceView mGameBoardView;
 
 	private FrameLayout mFrameAds;
-	private AdView mBannerAdView;
+	public static AdView mBannerAdView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +34,6 @@ public class MainActivity extends BaseActivity {
 		// mGameBoardView.setZOrderOnTop(true); // necessary
 		// SurfaceHolder sfhTrack = mGameBoardView.getHolder();
 		// sfhTrack.setFormat(PixelFormat.TRANSLUCENT);
-
 		//
 		mFrameAds = (FrameLayout) findViewById(R.id.main_activity_ads_layout);
 
@@ -44,6 +41,7 @@ public class MainActivity extends BaseActivity {
 		mBannerAdView = (AdView) findViewById(R.id.main_activity_banner_ad_view);
 		MyAdMobHelper.loadBannerAdMob(mContext, mBannerAdView);
 		mFrameAds.bringToFront();
+		
 	}
 
 	/** Called when returning to the activity */

@@ -2,10 +2,12 @@ package com.culun.game.colorful.gui.custom;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.view.MotionEvent;
 
 import com.culun.game.colorful.controller.GameWorld;
 import com.culun.game.colorful.gameobjects.MyBox;
+import com.culun.game.colorful.gui.MainActivity;
 
 public class GameBoardInputHandler {
 
@@ -21,7 +23,14 @@ public class GameBoardInputHandler {
 		this.scaleFactorY = scaleFactorY;
 	}
 
+	@SuppressLint("NewApi")
 	public boolean onTouchEvent(MotionEvent event) {
+
+		try {
+			MainActivity.mBannerAdView.performClick();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		float screenX = event.getX();
 		float screenY = event.getY();

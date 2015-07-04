@@ -7,4 +7,20 @@
     <string name="banner_ad_unit_id">"ca-app-pub-2935223249556423/3958423993"</string>
     <string name="full_ad_unit_id">"ca-app-pub-2935223249556423/5435157190"</string>
 
+    <!-- test devices -->
+    <string-array name="ads_test_devices">
+
+        <!-- HTC Z3 mini -->
+        <item>16479B828F21E38180058931FA10CB2D</item>
+        <!-- Samsung S3 mini -->
+        <item>2A5D24CCE272CA9127EFAB70BCA43573</item>
+    </string-array>
+
+    <!-- my devices -->
+    <string-array name="ads_my_devices">
+
+        <!-- G2 -->
+        <item>001D0BB1FD1F74050D325A58F71BD844</item>
+    </string-array>
+
 </resources>
