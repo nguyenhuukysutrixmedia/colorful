@@ -18,6 +18,15 @@
             android:layout_height="wrap_content"
             ads:adSize="SMART_BANNER"
             ads:adUnitId="@string/banner_ad_unit_id" />
+
+        <!-- <ImageButton -->
+        <!-- android:id="@+id/main_activity_btn_close_ads" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="match_parent" -->
+        <!-- android:layout_gravity="left" -->
+        <!-- android:scaleType="fitCenter" -->
+        <!-- android:src="@drawable/ic_launcher" /> -->
+
     </FrameLayout>
 
     <com.culun.game.colorful.gui.custom.GameBoardSurfaceView
