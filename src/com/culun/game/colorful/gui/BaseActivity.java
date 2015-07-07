@@ -13,11 +13,13 @@ public abstract class BaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		mContext = this;
 		setContentView(getLayoutId());
+		initDataObject();
 		initView();
 
 	}
 
 	abstract protected int getLayoutId();
 	abstract protected void initView();
+	abstract protected void initDataObject();
 
 }

@@ -19,7 +19,7 @@ import android.view.WindowManager;
 
 public class MyLog {
 
-	private static final String GENERAL_TAG = "baby_gender_general";
+	private static final String GENERAL_TAG = "colorful_general";
 
 	/**
 	 * log infor tag

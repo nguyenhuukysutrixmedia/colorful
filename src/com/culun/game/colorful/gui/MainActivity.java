@@ -29,6 +29,11 @@ public class MainActivity extends BaseActivity {
 	}
 
 	@Override
+	protected void initDataObject() {
+
+	}
+
+	@Override
 	protected void initView() {
 		mGameBoardView = (GameBoardSurfaceView) findViewById(R.id.main_activity_gameboard_surface_view);
 		// mGameBoardView.setZOrderOnTop(true); // necessary
@@ -41,7 +46,7 @@ public class MainActivity extends BaseActivity {
 		mBannerAdView = (AdView) findViewById(R.id.main_activity_banner_ad_view);
 		MyAdMobHelper.loadBannerAdMob(mContext, mBannerAdView);
 		mFrameAds.bringToFront();
-		
+
 	}
 
 	/** Called when returning to the activity */

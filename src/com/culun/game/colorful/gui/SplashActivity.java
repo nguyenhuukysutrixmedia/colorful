@@ -1,5 +1,6 @@
 package com.culun.game.colorful.gui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.android.volley.Request;
@@ -9,13 +10,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.culun.game.colorful.R;
+import com.culun.game.colorful.utils.MyLog;
 
 public class SplashActivity extends BaseActivity {
 
 	public static final String TAG = "colorfulTag";
 	// Instantiate the RequestQueue.
-	private RequestQueue mQueue = Volley.newRequestQueue(this);
-	private static String url = "http://www.google.com";
+	private RequestQueue mQueue;
+	private static String url = "https://www.google.com/";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,11 @@ public class SplashActivity extends BaseActivity {
 	}
 
 	@Override
+	protected void initDataObject() {
+		mQueue = Volley.newRequestQueue(this);
+	}
+	
+	@Override
 	protected void initView() {
 
 	}
@@ -40,7 +47,9 @@ public class SplashActivity extends BaseActivity {
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-
+				
+				MyLog.iGeneral("Response: " + response);
+				startMainActivity();
 			}
 		}, new Response.ErrorListener() {
 			@Override
@@ -51,6 +60,14 @@ public class SplashActivity extends BaseActivity {
 		stringRequest.setTag(TAG);
 		// Add the request to the RequestQueue.
 		mQueue.add(stringRequest);
+		mQueue.start();
+		
 	}
 
+	private void startMainActivity(){
+		Intent intent = new Intent(mContext,MainActivity.class);
+		startActivity(intent);
+	}
+	
+	
 }
