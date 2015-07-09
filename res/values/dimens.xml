@@ -6,6 +6,8 @@
     <dimen name="text_size_normal">38dp</dimen>
     <dimen name="text_size_big">48dp</dimen>
 
+    <!-- common -->
+
     <!-- game board -->
     <dimen name="box_round">8dp</dimen>
     <dimen name="box_margin_box">4dp</dimen>

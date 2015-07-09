@@ -1,7 +1,6 @@
 package com.culun.game.colorful.adsmob;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.culun.game.colorful.R;
 import com.culun.game.colorful.utils.MyLog;
@@ -21,6 +20,10 @@ public class MyAdMobHelper {
 	public static String PRE_FULL_LOADED_COUNT_KEY = "PRE_FULL_LOADED_COUNT_KEY";
 
 	private static InterstitialAd mInterstitialAd;
+
+	public static void readAdsKey() {
+		
+	}
 
 	/**
 	 * 

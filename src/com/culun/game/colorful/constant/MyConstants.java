@@ -13,4 +13,11 @@ public class MyConstants {
 	// public static final String FONT_PATH = "font/FunnyKid.ttf";
 	public static final String FONT_PATH = "font/Cartwheel.otf";
 
+	/**
+	 * 
+	 * 
+	 */
+	public static class AdMobConstant {
+		public static final String JSON_DATA_FILE_PATH = "data.json";
+	}
 }
