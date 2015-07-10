@@ -5,6 +5,13 @@
     android:layout_height="match_parent"
     android:background="@color/main_color" >
 
+    <com.culun.game.colorful.gui.custom.GameBoardSurfaceView
+        android:id="@+id/main_activity_gameboard_surface_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent" />
+
     <FrameLayout
         android:id="@+id/main_activity_ads_layout"
         android:layout_width="match_parent"
@@ -19,26 +26,19 @@
         <!-- ads:adSize="SMART_BANNER" -->
         <!-- ads:adUnitId="@string/banner_ad_unit_id" /> -->
 
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/main_activity_banner_ad_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
-        <!-- <ImageButton -->
-        <!-- android:id="@+id/main_activity_btn_close_ads" -->
-        <!-- android:layout_width="wrap_content" -->
-        <!-- android:layout_height="match_parent" -->
-        <!-- android:layout_gravity="left" -->
-        <!-- android:scaleType="fitCenter" -->
-        <!-- android:src="@drawable/ic_launcher" /> -->
+        <!-- <com.google.android.gms.ads.AdView -->
+        <!-- android:id="@+id/main_activity_banner_ad_view" -->
+        <!-- android:layout_width="match_parent" -->
+        <!-- android:layout_height="wrap_content" /> -->
 
+        <ImageButton
+            android:id="@+id/main_activity_btn_close_ads"
+            android:layout_width="@dimen/close_ads_icon_size"
+            android:layout_height="@dimen/close_ads_icon_size"
+            android:layout_gravity="left"
+            android:scaleType="fitCenter"
+            android:src="@drawable/close_icon" />
     </FrameLayout>
-
-    <com.culun.game.colorful.gui.custom.GameBoardSurfaceView
-        android:id="@+id/main_activity_gameboard_surface_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:background="@android:color/transparent" />
 
 </FrameLayout>

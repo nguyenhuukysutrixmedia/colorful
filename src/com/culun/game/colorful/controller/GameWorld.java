@@ -38,14 +38,14 @@ public class GameWorld {
 	private GameState currentState;
 	private float gameWidth;
 	private float gameHeight;
-	private Random randrom;
+	private Random random;
 
 	private Context mContext;
 
 	public GameWorld(Context context, GameBoardSurfaceView gameBoardSurfaceView, float gameWidth, float gameHeight) {
 		this.gameBoardSurfaceView = gameBoardSurfaceView;
 		mContext = context;
-		randrom = new Random(System.currentTimeMillis());
+		random = new Random(System.currentTimeMillis());
 		loadDimenValues();
 
 		this.gameWidth = gameWidth;
@@ -61,16 +61,16 @@ public class GameWorld {
 
 	private void randomColor() {
 
-		int r = randrom.nextInt(256);
-		int g = randrom.nextInt(256);
-		int b = randrom.nextInt(256);
+		int r = random.nextInt(256);
+		int g = random.nextInt(256);
+		int b = random.nextInt(256);
 
 		double darkness = 1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255;
 		while (darkness < 0.5) {
 			// It's a light color
-			r = randrom.nextInt(256);
-			g = randrom.nextInt(256);
-			b = randrom.nextInt(256);
+			r = random.nextInt(256);
+			g = random.nextInt(256);
+			b = random.nextInt(256);
 			darkness = 1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255;
 		}
 
@@ -94,7 +94,7 @@ public class GameWorld {
 		randomColor();
 
 		int n = size * size;
-		int targetIndex = randrom.nextInt(n);
+		int targetIndex = random.nextInt(n);
 		for (int i = 0; i < n; i++) {
 
 			int row = i / size;

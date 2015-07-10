@@ -16,7 +16,7 @@ public class DataModel implements Serializable{
 		this.version = version;
 	}
 
-	public AdsModel getAds() {
+	public AdsModel getAdsMod() {
 		return adsmob;
 	}
 

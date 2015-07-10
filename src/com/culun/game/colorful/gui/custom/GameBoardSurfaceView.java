@@ -23,7 +23,8 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 	/**
 	 * Constants
 	 */
-	private final int MARGIN_TOP_TEXT = 30;
+	private final int MARGIN_TOP_TEXT = 90;
+	private final int MARGIN_LEFT_TEXT = 35;
 
 	private final int TIME_COLOR = Color.CYAN;
 	private int BACKGROUND_COLOR = Color.WHITE;
@@ -157,7 +158,7 @@ public class GameBoardSurfaceView extends SurfaceView implements SurfaceHolder.C
 	private void drawScore() {
 
 		mPaint.setColor(mGameWorld.getBoxColor());
-		mCanvas.drawText("" + mGameWorld.getScore(), TEXT_SIZE_NORMAL, TEXT_SIZE_NORMAL, mPaint);
+		mCanvas.drawText("" + mGameWorld.getScore(), MARGIN_LEFT_TEXT, MARGIN_TOP_TEXT, mPaint);
 	}
 
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)

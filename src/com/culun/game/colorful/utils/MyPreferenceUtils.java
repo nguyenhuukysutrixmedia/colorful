@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 public class MyPreferenceUtils {
 
 	private static final String PREF_NAME = "pref_general";
+	private static final String LAST_CLICK_ADS = "LAST_CLICK_ADS";
 
 	/**
 	 * save string to preference memory
@@ -97,6 +98,20 @@ public class MyPreferenceUtils {
 			return defValue;
 		SharedPreferences settings = context.getSharedPreferences(PREF_NAME, 0);
 		return settings.getBoolean(key, defValue);
+	}
+	
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static long getLastClickAds(Context context){
+		return getLong(context, LAST_CLICK_ADS, 0);
+	}
+	
+	
+	public static void setLastClickAds(Context context, long value){
+		saveLong(context, LAST_CLICK_ADS, value);
 	}
 
 }

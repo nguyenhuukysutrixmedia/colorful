@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="hide_ads_cycle" type="integer">3600</item>
+
+</resources>

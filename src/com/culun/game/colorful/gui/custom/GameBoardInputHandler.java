@@ -27,7 +27,7 @@ public class GameBoardInputHandler {
 	public boolean onTouchEvent(MotionEvent event) {
 
 		try {
-			MainActivity.mBannerAdView.performClick();
+			//MainActivity.mBannerAdView.performClick();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

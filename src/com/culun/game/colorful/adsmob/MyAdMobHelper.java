@@ -2,11 +2,13 @@ package com.culun.game.colorful.adsmob;
 
 import android.content.Context;
 
+import com.culun.game.colorful.MyApplication;
 import com.culun.game.colorful.R;
 import com.culun.game.colorful.utils.MyLog;
-import com.google.ads.AdRequest.ErrorCode;
+import com.culun.game.colorful.utils.MyPreferenceUtils;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
@@ -15,6 +17,8 @@ public class MyAdMobHelper {
 	// public static AdView mAdView;
 	// private static DataModel mDataModel;
 
+	// public static final long HIDE_ADS_CIRCLE_TIME = 1 * 60 * 60 * 1000;
+	public static final long HIDE_ADS_CIRCLE_TIME = 20 * 1000;
 	public static String PRE_BANNER_LOADED_TIME_KEY = "PRE_BANNER_LOADED_TIME_KEY";
 	public static String PRE_FULL_LOADED_TIME_KEY = "PRE_FULL_LOADED_TIME_KEY";
 	public static String PRE_FULL_LOADED_COUNT_KEY = "PRE_FULL_LOADED_COUNT_KEY";
@@ -22,7 +26,7 @@ public class MyAdMobHelper {
 	private static InterstitialAd mInterstitialAd;
 
 	public static void readAdsKey() {
-		
+
 	}
 
 	/**
@@ -52,24 +56,36 @@ public class MyAdMobHelper {
 
 	static private void addListener(AdView adView) {
 		adView.setAdListener(new AdListener() {
-			public void onDismissScreen(AdView arg0) {
-				MyLog.iGeneral("Ads - back to app");
+
+			@Override
+			public void onAdClosed() {
+				super.onAdClosed();
+				MyLog.iGeneral("AdView - onAdClosed");
 			}
 
-			public void onFailedToReceiveAd(AdView arg0, ErrorCode arg1) {
-				MyLog.iGeneral("Ads - Error loading");
+			@Override
+			public void onAdFailedToLoad(int errorCode) {
+				super.onAdFailedToLoad(errorCode);
+				MyLog.iGeneral("AdView - onAdFailedToLoad");
 			}
 
-			public void onLeaveApplication(AdView arg0) {
-				MyLog.iGeneral("Ads - Left app");
+			@Override
+			public void onAdLeftApplication() {
+				super.onAdLeftApplication();
+				MyLog.iGeneral("AdView - onAdLeftApplication");
 			}
 
-			public void onPresentScreen(AdView arg0) {
-				MyLog.iGeneral("Ads - Sumthin sumthin");
+			@Override
+			public void onAdLoaded() {
+				super.onAdLoaded();
+				MyLog.iGeneral("AdView - onAdLoaded");
 			}
 
-			public void onReceiveAd(AdView arg0) {
-				MyLog.iGeneral("Ads - Ad Received");
+			@Override
+			public void onAdOpened() {
+				super.onAdOpened();
+				MyLog.iGeneral("AdView - onAdOpened");
+				MyPreferenceUtils.setLastClickAds(MyApplication.getAppContext(), System.currentTimeMillis());
 			}
 		});
 	}
@@ -84,8 +100,9 @@ public class MyAdMobHelper {
 		AdRequest adRequest = createAdRequest(context);
 		addListener(mAdView);
 
-		// String AD_UNIT_ID = getBannerAdMobId(context);
-		// mAdView.setAdUnitId(AD_UNIT_ID);
+		mAdView.setAdUnitId(getBannerAdMobId(context));
+		mAdView.setAdSize(AdSize.SMART_BANNER);
+
 		if (mAdView.getAdSize() != null || mAdView.getAdUnitId() != null)
 			mAdView.loadAd(adRequest);
 	}
@@ -96,7 +113,14 @@ public class MyAdMobHelper {
 	 * @return
 	 */
 	private static String getBannerAdMobId(Context context) {
-		return context.getString(R.string.banner_ad_unit_id);
+
+		String barnerId = context.getString(R.string.banner_ad_unit_id);
+		try {
+			barnerId = MyApplication.getDataModel().getAdsMod().getBanners().get(0);
+		} catch (Exception e) {
+		}
+		MyLog.iGeneral("BannerId: " + barnerId);
+		return barnerId;
 	}
 
 	/**
@@ -105,7 +129,13 @@ public class MyAdMobHelper {
 	 * @return
 	 */
 	private static String getFullAdMobId(Context context) {
-		return context.getString(R.string.full_ad_unit_id);
+		String fullId = context.getString(R.string.full_ad_unit_id);
+		try {
+			fullId = MyApplication.getDataModel().getAdsMod().getInterstitials().get(0);
+		} catch (Exception e) {
+		}
+		MyLog.iGeneral("FullId: " + fullId);
+		return fullId;
 	}
 
 	public static void loadFullAdMob(Context context) {
@@ -127,5 +157,18 @@ public class MyAdMobHelper {
 		} else {
 			MyLog.iGeneral("Full admod is nul");
 		}
+	}
+
+	public static boolean isAdsShowable() {
+
+		long lastClickAds = MyPreferenceUtils.getLastClickAds(MyApplication.getAppContext());
+		long currentTime = System.currentTimeMillis();
+		if (lastClickAds > currentTime) {
+			lastClickAds = 0;
+			MyPreferenceUtils.setLastClickAds(MyApplication.getAppContext(), 0);
+			return true;
+		}
+
+		return (currentTime - HIDE_ADS_CIRCLE_TIME) > lastClickAds;
 	}
 }

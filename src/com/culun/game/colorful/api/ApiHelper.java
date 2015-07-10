@@ -23,9 +23,11 @@ public class ApiHelper implements UrlDefines {
 	public static void getJsonData(Context context, Listener<String> Listener, ErrorListener ErrorListener) {
 		mContext = context;
 		mQueue = Volley.newRequestQueue(mContext);
+
 		// Request a string response from the provided URL.
 		StringRequest stringRequest = new StringRequest(Request.Method.GET, JSON_DATA_URL, Listener, ErrorListener);
-		stringRequest.setTag(TAG);
+		// stringRequest.setTag(TAG);
+		stringRequest.setShouldCache(false);
 		// Add the request to the RequestQueue.
 		mQueue.add(stringRequest);
 		mQueue.start();

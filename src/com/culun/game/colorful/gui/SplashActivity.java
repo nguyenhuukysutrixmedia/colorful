@@ -1,8 +1,11 @@
 package com.culun.game.colorful.gui;
 
+import java.util.Random;
+
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
+import android.view.View;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -11,10 +14,9 @@ import com.culun.game.colorful.MyApplication;
 import com.culun.game.colorful.R;
 import com.culun.game.colorful.api.ApiHelper;
 import com.culun.game.colorful.constant.MyConstants.AdMobConstant;
-import com.culun.game.colorful.model.DataModel;
 import com.culun.game.colorful.utils.MyFileHelper;
 import com.culun.game.colorful.utils.MyLog;
-import com.google.gson.Gson;
+import com.culun.game.colorful.utils.MyUtils;
 
 public class SplashActivity extends BaseActivity {
 
@@ -23,6 +25,7 @@ public class SplashActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		findViewById(R.id.splash_activity_root_view).setBackgroundColor(randomColor());
 
 		splashProcess();
 	}
@@ -42,6 +45,16 @@ public class SplashActivity extends BaseActivity {
 
 	}
 
+	private int randomColor() {
+
+		Random random = new Random(System.currentTimeMillis());
+		int r = random.nextInt(256);
+		int g = random.nextInt(256);
+		int b = random.nextInt(256);
+
+		return Color.argb(255, r, g, b);
+	}
+
 	private void splashProcess() {
 
 		Listener<String> getJsonDataListener = new Listener<String>() {
@@ -59,6 +72,7 @@ public class SplashActivity extends BaseActivity {
 			public void onErrorResponse(VolleyError error) {
 				MyLog.iGeneral("VolleyError getJsonData: " + error);
 				loadDataModel();
+				startMainActivity();
 			}
 		};
 		ApiHelper.getJsonData(mContext, getJsonDataListener, errorListener);
@@ -69,20 +83,7 @@ public class SplashActivity extends BaseActivity {
 	 * 
 	 */
 	private void loadDataModel() {
-
-		Gson gson = new Gson();
-		try {
-			String jsonData = MyFileHelper.readStringFromFilesDir(mContext, AdMobConstant.JSON_DATA_FILE_PATH);
-			DataModel dataModel = gson.fromJson(jsonData, DataModel.class);
-			MyApplication.setDataModel(dataModel);
-		} catch (Exception e) {
-			e.printStackTrace();
-			MyLog.eGeneral("Parse data json error: " + e);
-			String jsonData = MyFileHelper.readStringFromAsset(mContext, AdMobConstant.JSON_DATA_FILE_PATH);
-			DataModel dataModel = gson.fromJson(jsonData, DataModel.class);
-			MyApplication.setDataModel(dataModel);
-		}
-
+		MyApplication.setDataModel(MyUtils.loadDataModel(mContext));
 	}
 
 	/**
@@ -97,6 +98,11 @@ public class SplashActivity extends BaseActivity {
 	@Override
 	public void onBackPressed() {
 		// super.onBackPressed();
+	}
+
+	@Override
+	public void onClick(View v) {
+		
 	}
 
 }

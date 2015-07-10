@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
@@ -24,6 +25,11 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+
+import com.culun.game.colorful.constant.MyConstants.AdMobConstant;
+import com.culun.game.colorful.model.DataModel;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
 public class MyUtils {
 
@@ -263,5 +269,31 @@ public class MyUtils {
 		}
 
 		return writer.toString();
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static DataModel loadDataModel(Context context) {
+
+		DataModel dataModel = null;
+		
+		try {
+			String jsonData = MyFileHelper.readStringFromFilesDir(context, AdMobConstant.JSON_DATA_FILE_PATH);
+			Gson gson = new Gson();
+			JsonReader reader = new JsonReader(new StringReader(jsonData));
+			reader.setLenient(true);
+			dataModel = gson.fromJson(reader, DataModel.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+			MyLog.eGeneral("Parse data json error - Must load from asset: " + e);
+			Gson gson = new Gson();
+			String jsonData = MyFileHelper.readStringFromAsset(context, AdMobConstant.JSON_DATA_FILE_PATH);
+			MyFileHelper.writeStringToFilesDir(context, AdMobConstant.JSON_DATA_FILE_PATH, jsonData);
+			dataModel = gson.fromJson(jsonData, DataModel.class);
+		}
+		return dataModel;
 	}
 }
